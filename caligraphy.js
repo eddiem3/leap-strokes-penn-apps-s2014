@@ -62,7 +62,7 @@
 
 */
 		var radius = Math.abs( brush.touchDistance * 20 );
-		drawCircle( currentPosScreen[0] , currentPosScreen[1] , 20);
+		drawCircle( currentPosScreen[0] , currentPosScreen[1] , 10);
 
 //		ctx.lineTo( currentPosScreen[0], currentPosScreen[1]);
 		//ctx.stroke();
@@ -87,9 +87,20 @@
 //		console.log('draw');
 		//console.log('pen up');
 	    }
+
+	    /// we should also look for a gesture to see if we should clear the drawing
+	    if(frame.gestures.length > 0){
+		// we check each gesture in the frame
+		for(i=0, len=frame.gestures.length; i<len; i++){
+		    // and if one is the end of a swipe, we clear the canvas
+		    if(frame.gestures[i].type === 'swipe' && frame.gestures[i].state === 'stop'){
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+		    }
+		}
+	    }
 	    
 	    lastposition = currentPosition; //Update last position
-
+			
 	}
     }
 
@@ -112,6 +123,9 @@
 	return [ x , -y ];
 
     }
+
+
+
   
     // we have to enable gestures so that the device knows to send them through the websocket
     Leap.loop({ enableGestures: true }, draw);
