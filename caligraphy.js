@@ -38,6 +38,9 @@
 	ctx.fill();
     }
 
+
+
+
     function draw(frame){
 	var brush; //cursor object
 	var currentPosition; //current location of the cursor
@@ -64,6 +67,18 @@
 	    else {
 		ctx.stroke();
 	    }	    
+	}
+	
+	if(frame.gestures.length > 0){
+        // we check each gesture in the frame
+            for(i=0, len=frame.gestures.length; i<len; i++){
+          // and if one is the end of a swipe, we clear the canvas
+		if(frame.gestures[i].type === 'swipe' && frame.gestures[i].state === 'stop'){
+		    ctx.clearRect(0,0,canvas.width,canvas.height);
+		}
+
+		//if one is the end of a circle, we check the answer
+	    }
 	}
     }
 
